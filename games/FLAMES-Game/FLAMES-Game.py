@@ -34,6 +34,15 @@ def main():
 
         count = len(name1_list) + len(name2_list)
 
+        if count == 0:
+            print("\n" + "=" * 50)
+            print("DEGENERATE CASE DETECTED!")
+            print("=" * 50)
+            print("\nThese names share all letters! FLAMES is undefined.")
+            print("Please try with different names for a meaningful result.")
+            print("=" * 50)
+            continue
+
         total_len = len(original_name1) + len(original_name2)
         matched_chars = total_len - count
         score = 30 + round((matched_chars / total_len) * 70) if total_len > 0 else 0
@@ -43,18 +52,12 @@ def main():
 
         flames = ['F', 'L', 'A', 'M', 'E', 'S']
 
-        if count > 0:
-            index = 0
-            while len(flames) > 1:
-                index = (index + count - 1) % len(flames)
-                removed = flames.pop(index)
-                if index == len(flames) and len(flames) > 0:
-                    index = 0
-            result = flames[0]
-        else:
-            # Handle degenerate case where count is 0 (all letters match)
-            # Traditionally, FLAMES might be undefined or return 'F' by default
-            result = 'F'
+        index = 0
+        while len(flames) > 1:
+            index = (index + count - 1) % len(flames)
+            flames.pop(index)
+
+        result = flames[0]
 
         mapping = {
             'F': {"rel": "Friends", "emoji": "🤝", "metric": "Bond Strength"},
