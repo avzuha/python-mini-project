@@ -11,7 +11,7 @@ This folder contains practical Python mini-tools and utility-based projects such
 - Text-to-Morse
 - Tower-of-Hanoi
 - Typing-Speed-Tester
-- f1-performance-analyzer
+- F1-Performance-Analyzer
 
 ## How to Set Up and Run Any Utility Project
 
