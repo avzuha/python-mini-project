@@ -3,44 +3,50 @@
 
 function getProjectHTML(projectName) {
     const projects = {
-        'tic-tac-toe': getTicTacToeHTML(),
-        'rock-paper-scissor': getRockPaperScissorHTML(),
-        'dice-rolling': getDiceRollingHTML(),
-        'coin-flip': getCoinFlipHTML(),
-        'blackjack(21)' : getBlackjackHTML(),
-        'number-guessing': getNumberGuessingHTML(),
-        'hangman': getHangmanHTML(),
-        'word-scramble': getWordScrambleHTML(),
-        'flames': getFlamesHTML(),
-        'dots-boxes': getDotsBoxesHTML(),
-        'emoji-memory': getEmojiMemoryGameHTML(),
-        'fibonacci': getFibonacciHTML(),
-        'progression-recognizer': getProgressionRecognizerHTML(),
-        'pascal-triangle': getPascalTriangleHTML(),
-        'armstrong': getArmstrongHTML(),
-        'calculator': getCalculatorHTML(),
-        'collatz': getCollatzHTML(),
-        'prime-analyzer': getPrimeAnalyzerHTML(),
-        'projectile-motion': getProjectileMotionHTML(),
-        'coordinate-polar-transform': getCoordinatePolarTransformHTML(),
-        'derivative-calculator': getDerivativeCalculatorHTML(),
-        'morse-code': getMorseCodeHTML(),
-        'tower-of-hanoi': getTowerOfHanoiHTML(),
-        'number-converter': getNumberConverterHTML(),
-        'typing-speed-tester': getTypingSpeedTesterHTML(),
-        'snake-game': getsnakeGameHTML(),
-        'password-forge': getPasswordForgeHTML(),
-        'math-quiz': getMathQuizHTML(),
-        'whack-a-mole': getWhackaMoleHTML(),  
-        'simon-says': getSimonSaysHTML(),
-        'spot-the-difference': getSpotTheDifferenceHTML(),
-        'flappy-game': getFlappyGameHTML(),
-        '2048-game': get2048GameHTML(),
-        "productive-pet":getProductivePetHTML(),
-        'color-palette': getColorPaletteHTML(),
+        'tic-tac-toe': () => getTicTacToeHTML(),
+        'rock-paper-scissor': () => getRockPaperScissorHTML(),
+        'dice-rolling': () => getDiceRollingHTML(),
+        'coin-flip': () => getCoinFlipHTML(),
+        'blackjack(21)' : () => getBlackjackHTML(),
+        'number-guessing': () => getNumberGuessingHTML(),
+        'hangman': () => getHangmanHTML(),
+        'word-scramble': () => getWordScrambleHTML(),
+        'flames': () => getFlamesHTML(),
+        'dots-boxes': () => getDotsBoxesHTML(),
+        'emoji-memory': () => getEmojiMemoryGameHTML(),
+        'fibonacci': () => getFibonacciHTML(),
+        'progression-recognizer': () => getProgressionRecognizerHTML(),
+        'pascal-triangle': () => getPascalTriangleHTML(),
+        'armstrong': () => getArmstrongHTML(),
+        'calculator': () => getCalculatorHTML(),
+        'collatz': () => getCollatzHTML(),
+        'prime-analyzer': () => getPrimeAnalyzerHTML(),
+        'projectile-motion': () => getProjectileMotionHTML(),
+        'coordinate-polar-transform': () => getCoordinatePolarTransformHTML(),
+        'derivative-calculator': () => getDerivativeCalculatorHTML(),
+        'morse-code': () => getMorseCodeHTML(),
+        'tower-of-hanoi': () => getTowerOfHanoiHTML(),
+        'number-converter': () => getNumberConverterHTML(),
+        'typing-speed-tester': () => getTypingSpeedTesterHTML(),
+        'snake-game': () => getsnakeGameHTML(),
+        'password-forge': () => getPasswordForgeHTML(),
+        'math-quiz': () => getMathQuizHTML(),
+        'whack-a-mole': () => getWhackaMoleHTML(),
+        'simon-says': () => getSimonSaysHTML(),
+        'spot-the-difference': () => getSpotTheDifferenceHTML(),
+        'flappy-game': () => getFlappyGameHTML(),
+        '2048-game': () => get2048GameHTML(),
+        "productive-pet": () => getProductivePetHTML(),
+        'color-palette': () => getColorPaletteHTML(),
     };
-    
-    return projects[projectName] || '<h2>Project Coming Soon!</h2>';
+
+    try {
+        // Only execute the function if it exists in our dictionary
+        return projects[projectName] ? projects[projectName]() : '<h2>Project Coming Soon!</h2>';
+    } catch (error) {
+        console.warn(`Project missing or not loaded: ${projectName}`, error);
+        return '<h2>Project Coming Soon!</h2>';
+    }
 }
 
 function initializeProject(projectName) {
@@ -63,7 +69,8 @@ function initializeProject(projectName) {
         'coordinate-polar-transform': initCoordinatePolarTransform,
         'derivative-calculator': initDerivativeCalculator,
         'morse-code': initMorseCode,
-        'tower-of-hanoi': initTowerOfHanoi
+        'tower-of-hanoi': initTowerOfHanoi,
+        '2048-game': init2048Game // Added explicit mapped hook definition binding reference
     };
     
     if (initializers[projectName]) {
@@ -2340,45 +2347,49 @@ function initArmstrong() {
     const checkBtn = document.getElementById('checkArmstrong');
     const resultDiv = document.getElementById('armstrongResult');
     const exampleBtns = document.querySelectorAll('.example-btn');
-    
+
     function checkArmstrong(num) {
-        if (num === null || num === undefined || num < 0) {
-            resultDiv.innerHTML = '<p style="color: var(--danger-color);">⚠️ Please enter a valid positive number!</p>';
+
+        // FIXED VALIDATION (proper block + NaN handling)
+        if (!Number.isFinite(num) || num < 0 || !Number.isInteger(num)) {
+            resultDiv.innerHTML = `
+                <p style="color:red;">
+                    ⚠️ Please enter a valid positive integer!
+                </p>
+            `;
             return;
         }
-        
-        const numStr = num.toString();
+
+        const numStr = String(num);
         const numDigits = numStr.length;
         const digits = numStr.split('').map(Number);
-        
-        // Calculate sum
+
         let sum = 0;
         const calculations = [];
-        
+
         digits.forEach(digit => {
             const power = Math.pow(digit, numDigits);
             sum += power;
             calculations.push({ digit, power });
         });
-        
+
         const isArmstrong = sum === num;
-        
-        // Display result
+
         let html = `
             <div class="armstrong-result">
                 <div class="result-header ${isArmstrong ? 'is-armstrong' : 'not-armstrong'}">
                     ${isArmstrong ? '✅ Armstrong Number!' : '❌ Not an Armstrong Number'}
                 </div>
-                
+
                 <div class="calculation-steps">
                     <div class="step"><strong>Number:</strong> ${num}</div>
-                    <div class="step"><strong>Number of digits:</strong> ${numDigits}</div>
+                    <div class="step"><strong>Digits:</strong> ${numDigits}</div>
                     <div class="step"><strong>Calculation:</strong> Each digit raised to power ${numDigits}</div>
                 </div>
-                
+
                 <div class="digit-breakdown">
         `;
-        
+
         calculations.forEach(calc => {
             html += `
                 <div class="digit-card">
@@ -2387,42 +2398,59 @@ function initArmstrong() {
                 </div>
             `;
         });
-        
+
         html += `
                 </div>
-                
+
                 <div class="calculation-steps">
                     <div class="step">
                         <strong>Sum:</strong> ${calculations.map(c => c.power).join(' + ')} = ${sum}
                     </div>
                     <div class="step">
-                        ${isArmstrong 
-                            ? `<span style="color: var(--success-color);">✓ ${sum} = ${num} (Armstrong Number!)</span>`
-                            : `<span style="color: var(--danger-color);">✗ ${sum} ≠ ${num} (Not Armstrong)</span>`
+                        ${isArmstrong
+                            ? `<span style="color: var(--success-color);">✓ ${sum} = ${num}</span>`
+                            : `<span style="color: var(--danger-color);">✗ ${sum} ≠ ${num}</span>`
                         }
                     </div>
                 </div>
             </div>
         `;
-        
+
         resultDiv.innerHTML = html;
     }
-    
+
+    // CLICK HANDLER
     checkBtn.addEventListener('click', () => {
-        const num = parseInt(numberInput.value);
+        const raw = numberInput.value.trim();
+
+        if (raw === '') {
+            resultDiv.innerHTML = `<p style="color:red;">⚠️ Please enter a number!</p>`;
+            return;
+        }
+
+        const num = Number(raw);
         checkArmstrong(num);
     });
-    
+
+    // ENTER KEY HANDLER
     numberInput.addEventListener('keypress', (e) => {
         if (e.key === 'Enter') {
-            const num = parseInt(numberInput.value);
+            const raw = numberInput.value.trim();
+
+            if (raw === '') {
+                resultDiv.innerHTML = `<p style="color:red;">⚠️ Please enter a number!</p>`;
+                return;
+            }
+
+            const num = Number(raw);
             checkArmstrong(num);
         }
     });
-    
+
+    // EXAMPLES
     exampleBtns.forEach(btn => {
         btn.addEventListener('click', () => {
-            const num = parseInt(btn.getAttribute('data-num'));
+            const num = Number(btn.dataset.num);
             numberInput.value = num;
             checkArmstrong(num);
         });
@@ -3812,6 +3840,7 @@ function initializeProject(projectName) {
     if (initializers[projectName]) {
         initializers[projectName]();
     }
+}
 }
 
 //Removed Redundant game and project Logics and seperated them to different individual files located at (web-app/js/projects/)
