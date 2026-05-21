@@ -358,9 +358,9 @@
             box-shadow: none;
         }
 
-        /* =========================
-        NAVBAR
-        ========================= */
+        /* ==========================================================================
+           REACTIVE FLOATING ISLAND NAVBAR DESIGN
+           ========================================================================== */
 
         .navbar {
             width: 100%;
@@ -369,25 +369,55 @@
             position: sticky;
             top: 0;
             z-index: 1000;
+            padding: 14px 0;
+            background: transparent;
         }
 
-        .nav-wrapper {
-            height: 92px;
+        .nav-island {
+            max-width: 1240px;
+            margin: 0 auto;
+            background: rgba(10, 19, 34, 0.8);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.07);
+            border-radius: 24px;
+            padding: 0 24px;
+            height: 76px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            gap: 28px;
+            gap: 20px;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Light Mode Token Architecture for the Floating Component */
+        [data-theme="light"] .nav-island {
+            background: rgba(255, 255, 255, 0.8);
+            border-color: rgba(15, 23, 42, 0.08);
+            box-shadow: 0 12px 40px rgba(15, 23, 42, 0.06);
+        }
+
+        /* Subtle squeeze effect when scrolling down */
+        .navbar.scrolled .nav-island {
+            max-width: 1140px;
+            border-radius: 16px;
+            height: 68px;
+            background: rgba(6, 11, 19, 0.95);
+        }
+        [data-theme="light"] .navbar.scrolled .nav-island {
+            background: rgba(248, 250, 252, 0.95);
         }
 
         /* =========================
-        LOGO
+        LOGO & BRANDING BLOCK
         ========================= */
 
         .logo-wrap {
             display: flex;
             align-items: center;
-            gap: 14px;
             text-decoration: none;
+            gap: 10px;
         }
 
         .navbar-logo {
@@ -407,155 +437,226 @@
         .logo-text {
             display: flex;
             align-items: center;
-            gap: 4px;
-
-            font-size: 2rem;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.6rem;
             font-weight: 700;
-            line-height: 1;
+            letter-spacing: -0.5px;
         }
 
-        .logo-py {
-            color: #cbd5e1;
-        }
+        .logo-py { color: #94a3b8; transition: color 0.3s ease; }
+        .logo-mini { color: #ffffff; transition: color 0.3s ease; }
+        .logo-parens { color: #22c55e; }
 
-        .logo-mini {
-            color: white;
-        }
-
-        .logo-parens {
-            color: #22c55e;
-        }
+        [data-theme="light"] .logo-py { color: #64748b; }
+        [data-theme="light"] .logo-mini { color: #0f172a; }
 
         .logo-tagline {
-            margin-left: 14px;
-
-            color: #94a3b8;
-            font-size: 1rem;
+            color: #64748b;
+            font-size: 0.85rem;
             font-weight: 500;
-
-            white-space: nowrap;
+            background: rgba(255,255,255,0.04);
+            padding: 4px 10px;
+            border-radius: 8px;
+            border: 1px solid rgba(255,255,255,0.03);
+        }
+        [data-theme="light"] .logo-tagline {
+            color: #64748b;
+            background: rgba(0,0,0,0.03);
+            border-color: rgba(0,0,0,0.02);
         }
 
-        /* =========================
-        SEARCH
-        ========================= */
+        /* ==========================================================================
+           MODERN INSET SEARCH BAR WITH CAPSULE GLOW INTERACTION
+           ========================================================================== */
 
         .search-box {
             flex: 1;
-            max-width: 520px;
-
-            height: 64px;
-
+            max-width: 440px;
+            height: 46px;
             display: flex;
             align-items: center;
-            gap: 12px;
-
-            padding: 0 22px;
-
-            border-radius: 999px;
-
-            border: 2px solid #22c55e;
-
-            background: #1e293b;
+            gap: 10px;
+            padding: 0 18px;
+            border-radius: 14px; /* Matches modern geometric patterns over pill shape */
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            background: rgba(15, 23, 42, 0.4);
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .search-box i {
-            color: white;
-            font-size: 1.2rem;
+            color: #64748b;
+            font-size: 0.95rem;
+            transition: color 0.2s ease;
         }
 
         .search-box input {
             flex: 1;
-
             background: transparent;
             border: none;
             outline: none;
+            color: #ffffff;
+            font-size: 0.95rem;
+        }
+        [data-theme="light"] .search-box input { color: #0f172a; }
 
-            color: white;
-            font-size: 1.05rem;
+        .search-box input::placeholder { color: #475569; }
+
+        /* Dynamic Neon Accent Glow on Input Focus */
+        .search-box:focus-within {
+            border-color: #22c55e;
+            background: rgba(15, 23, 42, 0.8);
+            box-shadow: 0 0 20px rgba(34, 197, 94, 0.15);
+        }
+        .search-box:focus-within i {
+            color: #22c55e;
         }
 
-        .search-box input::placeholder {
-            color: #cbd5e1;
+        [data-theme="light"] .search-box {
+            background: rgba(241, 245, 249, 0.9);
+            border-color: rgba(15, 23, 42, 0.06);
+        }
+        [data-theme="light"] .search-box:focus-within {
+            background: #ffffff;
+            border-color: #16a34a;
+            box-shadow: 0 0 20px rgba(22, 163, 74, 0.12);
         }
 
         /* =========================
-        RIGHT BUTTONS
+        UTILITY ICON SYSTEM CONTROLS
         ========================= */
 
         .nav-controls {
             display: flex;
             align-items: center;
-            gap: 14px;
+            gap: 10px;
         }
 
         .sound-toggle,
         .theme-toggle {
-            width: 54px;
-            height: 54px;
-
-            border: none;
-            border-radius: 50%;
-
-            background: #22c55e;
-            color: white;
-
-            font-size: 1.2rem;
-
+            width: 42px;
+            height: 42px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.03);
+            color: #94a3b8;
+            font-size: 1rem;
             cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
 
-            transition: 0.25s ease;
+        [data-theme="light"] .sound-toggle,
+        [data-theme="light"] .theme-toggle {
+            background: rgba(15, 23, 42, 0.03);
+            color: #475569;
+            border-color: rgba(15, 23, 42, 0.05);
         }
 
         .sound-toggle:hover,
         .theme-toggle:hover {
-            transform: translateY(-2px) scale(1.05);
+            background: rgba(34, 197, 94, 0.1);
+            color: #22c55e;
+            border-color: rgba(34, 197, 94, 0.25);
+            transform: translateY(-2px);
         }
 
-        /* =========================
-        MOBILE
-        ========================= */
+        [data-theme="light"] .sound-toggle:hover,
+        [data-theme="light"] .theme-toggle:hover {
+            background: rgba(22, 163, 74, 0.08);
+            color: #16a34a;
+            border-color: rgba(22, 163, 74, 0.2);
+            transform: translateY(-2px);
+        }
 
-        @media (max-width: 900px) {
+        /* Hamburger Drawer System Trigger */
+        .mobile-menu-toggle {
+            display: none;
+            width: 42px;
+            height: 42px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            background: rgba(255, 255, 255, 0.02);
+            color: #ffffff;
+            font-size: 1rem;
+            border-radius: 12px;
+            cursor: pointer;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+        [data-theme="light"] .mobile-menu-toggle {
+            color: #0f172a;
+            border-color: rgba(0,0,0,0.06);
+            background: transparent;
+        }
 
-            .logo-tagline {
-                display: none;
-            }
+        .mobile-menu-toggle:hover {
+            border-color: #22c55e;
+            color: #22c55e;
+        }
+
+        /* ==========================================================================
+           RESPONSIVE STRUCTURAL OVERRIDES (MOBILE DRAWER CONFIG)
+           ========================================================================== */
+
+        @media (max-width: 950px) {
+            .logo-tagline { display: none; }
+        }
+
+        @media (max-width: 768px) {
+            .navbar { padding: 10px 8px; }
+            .nav-island { height: 64px; padding: 0 16px; border-radius: 16px; }
+            .mobile-menu-toggle { display: flex; z-index: 1100; }
 
             .search-box {
-                max-width: 300px;
+                position: absolute;
+                top: 80px;
+                left: 8px;
+                right: 8px;
+                max-width: calc(100% - 16px);
+                height: 44px;
+                background: #071227;
+                border-color: rgba(255,255,255,0.08);
+                box-shadow: 0 8px 24px rgba(0,0,0,0.2);
             }
+            [data-theme="light"] .search-box {
+                background: #ffffff;
+                border-color: rgba(0,0,0,0.08);
+            }
+
+            .nav-controls {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 260px;
+                height: 100vh;
+                background: #071227;
+                border-left: 1px solid rgba(255, 255, 255, 0.08);
+                flex-direction: column;
+                justify-content: center;
+                gap: 20px;
+                padding: 2rem;
+                z-index: 1050;
+                transition: right 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+            }
+            [data-theme="light"] .nav-controls {
+                background: #ffffff;
+                border-left: 1px solid rgba(0,0,0,0.06);
+            }
+
+            .nav-controls.mobile-active { right: 0; }
+            .sound-toggle, .theme-toggle { width: 50px; height: 50px; border-radius: 14px; }
         }
-
-        @media (max-width: 700px) {
-
-            .nav-wrapper {
-                flex-wrap: wrap;
-                height: auto;
-                padding: 16px 0;
-            }
-
-            .search-box {
-                order: 3;
-                width: 100%;
-                max-width: 100%;
-            }
-        }
-
 
         /* ── Reduced-motion overrides for playground ────────────────── */
         @media (prefers-reduced-motion: reduce) {
-            .playground-section {
-                animation: none;
+            .playground-section, .status-dot.loading, .navbar, .nav-island, .search-box {
+                animation: none !important;
+                transition: none !important;
+                transform: none !important;
             }
-
-            .status-dot.loading {
-                animation: none;
-            }
-
-            .btn-run:hover:not(:disabled) {
-                transform: none;
-            }
+            .btn-run:hover:not(:disabled) { transform: none; }
         }
 
         .logo-icon {
@@ -592,7 +693,6 @@
 
             filter: drop-shadow(0 0 10px rgba(0, 255, 180, 0.4));
         }
-
         .navbar-logo:hover {
             transform: scale(1.06);
             filter: drop-shadow(0 0 12px rgba(0, 255, 180, 0.55));
@@ -611,76 +711,24 @@
                     rgba(40, 115, 236, 0.15));
             transition: all 0.3s ease;
         }
+        .card-icon svg { width: 34px; height: 34px; stroke-width: 2.2; }
+        .project-card:hover .card-icon { transform: translateY(-4px) scale(1.08); }
 
-        .card-icon svg {
-            width: 34px;
-            height: 34px;
-            stroke-width: 2.2;
-        }
-
-        .project-card:hover .card-icon {
-            transform: translateY(-4px) scale(1.08);
-        }
-
-        .game-icon-rps {
-            color: #999fee;
-        }
-
-        .game-icon-dice {
-            color: #e04f4f;
-        }
-
-        .game-icon-coin {
-            color: #eab308;
-        }
-
-        .game-icon-target {
-            color: #5bc085;
-        }
-
-        .game-icon-hangman {
-            color: #b99b48;
-        }
-
-        .game-icon-word {
-            color: #8a99ee;
-        }
-
-        .game-icon-love {
-            color: #ec4899;
-        }
-
-        .game-icon-grid {
-            color: #5cf6a1;
-        }
-
-        .game-icon-lock {
-            color: #06b6d4;
-        }
-
-        .game-icon-brain {
-            color: #f59e0b;
-        }
-
-        .game-icon-snake {
-            color: #22c55e;
-        }
-
-        .game-icon-memory {
-            color: rgb(199, 199, 0);
-        }
-
-        .game-icon-hammer {
-            color: #8a5834;
-        }
-
-        .game-icon-puzzle {
-            color: #3b82f6;
-        }
-
-        .game-icon-bird {
-            color: #38bdf8;
-        }
+        .game-icon-rps { color: #999fee; }
+        .game-icon-dice { color: #e04f4f; }
+        .game-icon-coin { color: #eab308; }
+        .game-icon-target { color: #5bc085; }
+        .game-icon-hangman { color: #b99b48; }
+        .game-icon-word { color: #8a99ee; }
+        .game-icon-love { color: #ec4899; }
+        .game-icon-grid { color: #5cf6a1; }
+        .game-icon-lock { color: #06b6d4; }
+        .game-icon-brain { color: #f59e0b; }
+        .game-icon-snake { color: #22c55e; }
+        .game-icon-memory { color: rgb(199, 199, 0); }
+        .game-icon-hammer { color: #8a5834; }
+        .game-icon-puzzle { color: #3b82f6; }
+        .game-icon-bird { color: #38bdf8; }
 
         /* Math Icons */
 
@@ -725,63 +773,22 @@
         }
 
         /* Utility Icons */
-
-        .utility-icon-radio {
-            color: #3b82f6;
-        }
-
-        .utility-icon-tower {
-            color: #f97316;
-        }
-
-        .utility-icon-convert {
-            color: #22c55e;
-        }
-
-        .utility-icon-typing {
-            color: #5cdff6;
-        }
+        .utility-icon-radio { color: #3b82f6; }
+        .utility-icon-tower { color: #f97316; }
+        .utility-icon-convert { color: #22c55e; }
+        .utility-icon-typing { color: #5cdff6; }
 
         .btn-favorite {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            background: transparent;
-            border: none;
-            color: #94a3b8;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.2s ease;
-            z-index: 10;
-            font-size: 1.5rem;
-            outline: none;
+            position: absolute; top: 15px; right: 15px; background: transparent; border: none;
+            color: #94a3b8; width: 40px; height: 40px; border-radius: 50%; cursor: pointer;
+            display: flex; align-items: center; justify-content: center; transition: all 0.2s ease;
+            z-index: 10; font-size: 1.5rem; outline: none;
         }
+        .btn-favorite:hover { transform: scale(1.15); color: #ffffff; filter: drop-shadow(0 0 4px rgba(255, 255, 255, 0.4)); }
+        .btn-favorite.active { color: #22c55e; filter: drop-shadow(0 0 8px #22c55e) drop-shadow(0 0 16px #22c55e); }
 
-        .btn-favorite:hover {
-            transform: scale(1.15);
-            color: #ffffff;
-            filter: drop-shadow(0 0 4px rgba(255, 255, 255, 0.4));
-        }
-
-        .btn-favorite.active {
-            color: #22c55e;
-            filter: drop-shadow(0 0 8px #22c55e) drop-shadow(0 0 16px #22c55e);
-        }
-
-        [data-theme="light"] .btn-favorite:hover {
-            color: #0f172a;
-            filter: drop-shadow(0 0 4px rgba(0, 0, 0, 0.3));
-        }
-
-        [data-theme="light"] .btn-favorite.active {
-            color: #16a34a;
-            filter: drop-shadow(0 0 8px #16a34a) drop-shadow(0 0 15px #16a34a);
-        }
+        [data-theme="light"] .btn-favorite:hover { color: #0f172a; filter: drop-shadow(0 0 4px rgba(0, 0, 0, 0.3)); }
+        [data-theme="light"] .btn-favorite.active { color: #16a34a; filter: drop-shadow(0 0 8px #16a34a) drop-shadow(0 0 15px #16a34a); }
     </style>
 </head>
 <body>

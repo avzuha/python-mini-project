@@ -45,6 +45,8 @@ function initWhackaMole() {
     let timeLeft = 30;
     let gameActive = false;
     let activeIndex = -1;
+    let lastActiveIndex = -1;
+    let lastActiveTime = 0;
     let timerId = null;
     let moleId = null;
 
@@ -52,13 +54,21 @@ function initWhackaMole() {
         const button = document.createElement('button');
         button.type = 'button';
         button.className = 'whack-hole';
+        button.textContent = '🕳️';
         button.setAttribute('aria-label', `Hole ${index + 1}`);
         function handleHit(e) {
             if (e && e.preventDefault) e.preventDefault();
             if (!gameActive || index !== activeIndex) return;
             score += 1;
             scoreEl.textContent = String(score);
-            messageEl.textContent = 'Hit!';
+            messageEl.textContent = 'Hit! 🔨';
+            button.textContent = '💥';
+            button.classList.remove('active');
+            
+            // Set to -1 immediately to prevent double hits
+            activeIndex = -1;
+            lastActiveIndex = -1;
+            
             clearTimeout(moleId);
             showMole();
         }
@@ -69,18 +79,46 @@ function initWhackaMole() {
     });
 
     function showMole() {
-        holes.forEach(hole => hole.classList.remove('active'));
-        activeIndex = Math.floor(Math.random() * holes.length);
+        if (!gameActive) return;
+        
+        // Save previous active mole state for grace period
+        if (activeIndex !== -1) {
+            lastActiveIndex = activeIndex;
+            lastActiveTime = Date.now();
+        }
+        
+        holes.forEach(hole => {
+            hole.classList.remove('active');
+            hole.textContent = '🕳️';
+        });
+        
+        // Choose a new hole, ensuring it is different from the current one
+        let newIndex;
+        do {
+            newIndex = Math.floor(Math.random() * holes.length);
+        } while (newIndex === activeIndex && holes.length > 1);
+        
+        activeIndex = newIndex;
         holes[activeIndex].classList.add('active');
+        holes[activeIndex].textContent = '🐭';
+        
         moleId = setTimeout(showMole, 850);
     }
 
     function stopGame(finalMessage) {
         gameActive = false;
         clearInterval(timerId);
+        timerId = null;
         clearTimeout(moleId);
-        holes.forEach(hole => hole.classList.remove('active'));
+        moleId = null;
+        activeIndex = -1;
+        lastActiveIndex = -1;
+        holes.forEach(hole => {
+            hole.classList.remove('active');
+            hole.textContent = '🕳️';
+        });
         messageEl.textContent = finalMessage;
+        startBtn.disabled = false;
     }
 
     function startGame() {
@@ -90,9 +128,9 @@ function initWhackaMole() {
         scoreEl.textContent = '0';
         timeEl.textContent = '30';
         messageEl.textContent = 'Go!';
+        startBtn.disabled = true;
         clearInterval(timerId);
         clearTimeout(moleId);
-        showMole();
         timerId = setInterval(() => {
             timeLeft -= 1;
             timeEl.textContent = String(timeLeft);
@@ -100,19 +138,27 @@ function initWhackaMole() {
                 stopGame(`Time! Final score: ${score}`);
             }
         }, 1000);
+        showMole();
     }
 
     startBtn.addEventListener('click', startGame);
     resetBtn.addEventListener('click', () => {
         clearInterval(timerId);
+        timerId = null;
         clearTimeout(moleId);
+        moleId = null;
         score = 0;
         timeLeft = 30;
         gameActive = false;
         activeIndex = -1;
-        holes.forEach(hole => hole.classList.remove('active'));
+        lastActiveIndex = -1;
+        holes.forEach(hole => {
+            hole.classList.remove('active');
+            hole.textContent = '🕳️';
+        });
         scoreEl.textContent = '0';
         timeEl.textContent = '30';
         messageEl.textContent = 'Hit the mole when it appears.';
+        startBtn.disabled = false;
     });
 }
