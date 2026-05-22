@@ -27,7 +27,7 @@ function getTypingSpeedTesterHTML() {
 
             <button
                 id="startTypingBtn"
-                class="btn-play"
+                class="btn-tester-action"
                 style="
                     margin-bottom: 20px;
                     font-weight: 700;
@@ -45,7 +45,7 @@ function getTypingSpeedTesterHTML() {
 
             <button
                 id="newSentenceBtn"
-                class="btn-play"
+                class="btn-tester-action"
                 style="
                     margin-bottom: 20px;
                     margin-left: 10px;

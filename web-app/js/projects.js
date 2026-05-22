@@ -1,4 +1,4 @@
-﻿// Project Registry
+// Project Registry
 // Each project's HTML and logic lives in its own file under js/projects/
 
 function getProjectHTML(projectName) {
@@ -49,34 +49,7 @@ function getProjectHTML(projectName) {
     }
 }
 
-function initializeProject(projectName) {
-    const initializers = {
-        'rock-paper-scissor': initRockPaperScissor,
-        'dice-rolling': initDiceRolling,
-        'coin-flip': initCoinFlip,
-        'blackjack-21' : initBlackjack,
-        'number-guessing': initNumberGuessing,
-        'hangman': initHangman,
-        'flames': initFlames,
-        'fibonacci': initFibonacci,
-        'progression-recognizer': initProgressionRecognizer,
-        'pascal-triangle': initPascalTriangle,
-        'armstrong': initArmstrong,
-        'calculator': initCalculator,
-        'collatz': initCollatz,
-        'prime-analyzer': initPrimeAnalyzer,
-        'projectile-motion': initProjectileMotion,
-        'coordinate-polar-transform': initCoordinatePolarTransform,
-        'derivative-calculator': initDerivativeCalculator,
-        'morse-code': initMorseCode,
-        'tower-of-hanoi': initTowerOfHanoi,
-        '2048-game': init2048Game // Added explicit mapped hook definition binding reference
-    };
-    
-    if (initializers[projectName]) {
-        initializers[projectName]();
-    }
-}
+
 
 // ============================================
 // ROCK PAPER SCISSORS
@@ -3739,44 +3712,46 @@ function getProductivePetHTML() {
 
 function initializeProject(projectName) {
     const initializers = {
-        'tic-tac-toe': initTicTacToe,
-        'rock-paper-scissor': initRockPaperScissor,
-        'dice-rolling': initDiceRolling,
-        'coin-flip': initCoinFlip,
-        'number-guessing': initNumberGuessing,
-        'hangman': initHangman,
-        'word-scramble': initWordScramble,
-        'flames': initFlames,
-        'dots-boxes': initDotsBoxes,
-        'emoji-memory': initEmojiMemoryGame,
-        'fibonacci': initFibonacci,
-        'progression-recognizer': initProgressionRecognizer,
-        'pascal-triangle': initPascalTriangle,
-        'armstrong': initArmstrong,
-        'calculator': initCalculator,
-        'collatz': initCollatz,
-        'prime-analyzer': initPrimeAnalyzer,
-        'projectile-motion': initProjectileMotion,
-        'coordinate-polar-transform': initCoordinatePolarTransform,
-        'derivative-calculator': initDerivativeCalculator,
-        'morse-code': initMorseCode,
-        'tower-of-hanoi': initTowerOfHanoi,
-        'number-converter': initNumberConverter,
-        'typing-speed-tester': initTypingSpeedTester,
-        'snake-game': initSnakeGame,
-        'password-forge': initPasswordForge, // Register Password Forge initializer
-        'spot-the-difference': initSpotTheDifference,
-        'whack-a-mole': initWhackaMole,
-        'flappy-game': initFlappyGame,
-        'productive-pet': initProductivePet,
-        'simon-says': initSimonSays,
-        '2048-game': init2048Game,
-        'color-palette': initColorPalette, 
-        'math-quiz': initMathQuiz,
+        'tic-tac-toe': 'initTicTacToe',
+        'rock-paper-scissor': 'initRockPaperScissor',
+        'dice-rolling': 'initDiceRolling',
+        'coin-flip': 'initCoinFlip',
+        'blackjack-21': 'initBlackjack',
+        'number-guessing': 'initNumberGuessing',
+        'hangman': 'initHangman',
+        'word-scramble': 'initWordScramble',
+        'flames': 'initFlames',
+        'dots-boxes': 'initDotsBoxes',
+        'emoji-memory': 'initEmojiMemoryGame',
+        'fibonacci': 'initFibonacci',
+        'progression-recognizer': 'initProgressionRecognizer',
+        'pascal-triangle': 'initPascalTriangle',
+        'armstrong': 'initArmstrong',
+        'calculator': 'initCalculator',
+        'collatz': 'initCollatz',
+        'prime-analyzer': 'initPrimeAnalyzer',
+        'projectile-motion': 'initProjectileMotion',
+        'coordinate-polar-transform': 'initCoordinatePolarTransform',
+        'derivative-calculator': 'initDerivativeCalculator',
+        'morse-code': 'initMorseCode',
+        'tower-of-hanoi': 'initTowerOfHanoi',
+        'number-converter': 'initNumberConverter',
+        'typing-speed-tester': 'initTypingSpeedTester',
+        'snake-game': 'initSnakeGame',
+        'password-forge': 'initPasswordForge',
+        'spot-the-difference': 'initSpotTheDifference',
+        'whack-a-mole': 'initWhackaMole',
+        'flappy-game': 'initFlappyGame',
+        'productive-pet': 'initProductivePet',
+        'simon-says': 'initSimonSays',
+        '2048-game': 'init2048Game',
+        'color-palette': 'initColorPalette',
+        'math-quiz': 'initMathQuiz'
     };
     
-    if (initializers[projectName]) {
-        initializers[projectName]();
+    const initializerName = initializers[projectName];
+    if (initializerName && typeof window[initializerName] === 'function') {
+        window[initializerName]();
     }
 }
 
