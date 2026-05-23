@@ -44,7 +44,7 @@ function getPasswordForgeHTML() {
                 margin-top: 1rem;
                 font-size: 1rem;
                 background-color: var(--bg-color);
-                color: #000;
+                color: var(--text-color);
             }
 
             .btn-check {
@@ -101,19 +101,32 @@ function initPasswordForge() {
     }
 });
 
-    checkBtn.addEventListener('click', () => {
-        const password = document.getElementById('passwordInput').value;
-        const result = document.getElementById('passwordResult');
+    const rulesContainer = document.getElementById('rulesContainer');
+    const result = document.getElementById('passwordResult');
 
+    function checkRules() {
+        const password = passwordInput.value;
         const hasLength = password.length >= 8;
         const hasNumber = /\d/.test(password);
         const hasUpper = /[A-Z]/.test(password);
-        const hasSpecial = /[!@#$%^&*]/.test(password);
+        const hasSpecial = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~`]/.test(password);
+
+        rulesContainer.innerHTML = `
+            <p>${hasLength ? '✅' : '❌'} Must contain at least 8 characters</p>
+            <p>${hasNumber ? '✅' : '❌'} Must contain a number</p>
+            <p>${hasUpper ? '✅' : '❌'} Must contain an uppercase letter</p>
+            <p>${hasSpecial ? '✅' : '❌'} Must contain a special character</p>
+        `;
 
         if (hasLength && hasNumber && hasUpper && hasSpecial) {
             result.textContent = "✅ Strong Password!";
+            result.style.color = "var(--success-color)";
         } else {
             result.textContent = "❌ Password does not meet all rules!";
+            result.style.color = "var(--danger-color)";
         }
-    });
+    }
+
+    passwordInput.addEventListener('input', checkRules);
+    checkBtn.addEventListener('click', checkRules);
 }
